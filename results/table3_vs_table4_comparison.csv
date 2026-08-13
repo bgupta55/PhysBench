@@ -1,0 +1,11 @@
+arch,seed,defense,asr_20flip,asr_15flip,identical
+smallcnn,0,undefended,0.00266,0.001995,False
+smallcnn,1,undefended,0.00266,0.001995,False
+smallcnn,2,undefended,0.00266,0.001995,False
+smallcnn,3,undefended,0.00266,0.001995,False
+smallcnn,4,undefended,0.00266,0.001995,False
+smallcnn,5,undefended,0.00266,0.001995,False
+smallcnn,6,undefended,0.00266,0.001995,False
+smallcnn,7,undefended,0.00266,0.001995,False
+smallcnn,8,undefended,0.00266,0.001995,False
+smallcnn,9,undefended,0.00266,0.001995,False

@@ -1,0 +1,44 @@
+{
+  "args": {
+    "budget": 15,
+    "seeds": 10,
+    "arch": "smallcnn",
+    "defense": "all",
+    "attack": "pbs",
+    "clip_sigma": 1.0,
+    "checksum_cov": 0.5,
+    "top_k": 8,
+    "sub_batch": 32
+  },
+  "n_rows": 450,
+  "csv_out": "pbs_sweep_b15_pbs_20260813T023315.csv",
+  "csv_sha256": "f66b341cf3edddad62254a157ba86f04dbd51722296c794930c0c7fcd9347e78",
+  "final_asr": [
+    {
+      "arch": "smallcnn",
+      "defense": "checksum",
+      "attack": "pbs",
+      "mean": 0.0002,
+      "std": 0.0002,
+      "median": 0.0001
+    },
+    {
+      "arch": "smallcnn",
+      "defense": "clip",
+      "attack": "pbs",
+      "mean": 0.0013,
+      "std": 0.0002,
+      "median": 0.0014
+    },
+    {
+      "arch": "smallcnn",
+      "defense": "undefended",
+      "attack": "pbs",
+      "mean": 0.002,
+      "std": 0.0,
+      "median": 0.002
+    }
+  ],
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "20260813T023315"
+}

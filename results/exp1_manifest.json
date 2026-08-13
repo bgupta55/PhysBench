@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "dk_len": 1632,
+  "packed_s_len": 768,
+  "pk_len": 800,
+  "h_pk_len": 32,
+  "z_len": 32,
+  "bits_per_coef": 12,
+  "cbd_eta": 3,
+  "stored_as": "NTT_domain_s_hat_mod_q",
+  "coeff_range_Zq_ok": true,
+  "round_trip_ok": true,
+  "dk_sha256": "e00bb83274450ceb71b75676adb0fec7eb7476fa4f084952cfe385663982b774",
+  "kyber_py_version": "1.2.0",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:25:29.411981Z"
+}

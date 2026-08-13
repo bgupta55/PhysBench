@@ -1,0 +1,47 @@
+{
+  "n_trials": 10000,
+  "seed": 42,
+  "dk_size_bytes": 1632,
+  "parameter_ranges": {
+    "aggressor_counts": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "victim_offsets": [
+      -2,
+      -1,
+      1,
+      2
+    ],
+    "row_sizes_bytes": [
+      1024,
+      2048,
+      4096
+    ],
+    "literature_sources": [
+      "DeepHammer (Yuan et al., USENIX Sec 2020)",
+      "TRRespass (Frigo et al., S&P 2020)"
+    ]
+  },
+  "statistics": {
+    "FRR_PQC": {
+      "median": 0.0,
+      "mean": 0.0347,
+      "p5": 0.0,
+      "p95": 0.1362,
+      "max": 1.0
+    },
+    "FRR_DNN": {
+      "median": 0.0156,
+      "mean": 0.0326,
+      "p5": 0.0039,
+      "p95": 0.1094,
+      "max": 0.125
+    }
+  },
+  "csv_sha256": "ae48a22dd912b2e5c3788bf72b0595fca4a71f2e2f40fc9fddec826c65ab7bd1",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:25:33.228739Z"
+}

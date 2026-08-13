@@ -1,0 +1,68 @@
+{
+  "args": {
+    "budget": 20,
+    "seeds": 10,
+    "arch": "both",
+    "defense": "all",
+    "attack": "random",
+    "clip_sigma": 1.0,
+    "checksum_cov": 0.5,
+    "top_k": 8,
+    "sub_batch": 32
+  },
+  "n_rows": 1200,
+  "csv_out": "pbs_sweep_b20_random_20260813T024607.csv",
+  "csv_sha256": "9e4ce1d80fa090cedd12184b84481a9fc06dd030f8e1873f2e0e0fc5ebf25cc1",
+  "final_asr": [
+    {
+      "arch": "resnet20",
+      "defense": "checksum",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    },
+    {
+      "arch": "resnet20",
+      "defense": "clip",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    },
+    {
+      "arch": "resnet20",
+      "defense": "undefended",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    },
+    {
+      "arch": "smallcnn",
+      "defense": "checksum",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    },
+    {
+      "arch": "smallcnn",
+      "defense": "clip",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    },
+    {
+      "arch": "smallcnn",
+      "defense": "undefended",
+      "attack": "random",
+      "mean": 0.0,
+      "std": 0.0,
+      "median": 0.0
+    }
+  ],
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "20260813T024607"
+}

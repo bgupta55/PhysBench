@@ -1,0 +1,99 @@
+{
+  "kyber512_published_params": {
+    "n_eff": 512,
+    "q": 3329,
+    "eta": 3,
+    "sigma_s": 1.224745,
+    "beta_primal": 383,
+    "cost_bits_baseline": 118.0,
+    "source": "CRYSTALS-Kyber v3.02 NIST submission, Table 1 (primal-uSVP, classical)"
+  },
+  "method": "calibrated_primal_usvp_linear_dim_reduction",
+  "method_reference": "BKZ sieving cost model: 0.292*beta + C (Becker-Ducas-Gama-Laarhoven 2016). Dimension reduction after m perfect hints: beta(m) = beta_0*(n-m)/n (linear scaling, standard approximation). C_overhead calibrated to Kyber-512 submission security estimate.",
+  "sage_status": "unavailable (Python 3.14 incompatible with SageMath <=10.8; SageMath lattice-estimator run is the recommended upgrade path once a Python 3.11 environment is available via conda/mamba).",
+  "c_overhead_bits": 6.164,
+  "exp3_cross_ref": {
+    "p95_frr_pqc": 0.1362,
+    "n_reachable_bytes_p95": 105,
+    "n_coeff_hints_p95": 140,
+    "bits_at_p95_geometry": 87.42
+  },
+  "exp4_cross_ref": {
+    "oracle_exploitable_fraction": 0.4783,
+    "affected_region": "packed_s (100% silent_wrong_output)"
+  },
+  "n_hints_sweep": [
+    0,
+    5,
+    10,
+    25,
+    50,
+    100,
+    150,
+    200,
+    300,
+    400,
+    512
+  ],
+  "baseline_bit_sec": 118.0,
+  "results": [
+    {
+      "n_hints": 0,
+      "bit_security_rop": 118.0,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 5,
+      "bit_security_rop": 116.91,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 10,
+      "bit_security_rop": 115.82,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 25,
+      "bit_security_rop": 112.54,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 50,
+      "bit_security_rop": 107.08,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 100,
+      "bit_security_rop": 96.16,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 150,
+      "bit_security_rop": 85.24,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 200,
+      "bit_security_rop": 74.31,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 300,
+      "bit_security_rop": 52.47,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 400,
+      "bit_security_rop": 30.63,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    },
+    {
+      "n_hints": 512,
+      "bit_security_rop": 6.38,
+      "method": "calibrated_primal_usvp_Kyber512_submission"
+    }
+  ],
+  "csv_sha256": "7491ff3bdc624bbc5abcdfae18c9fbae3c3e8f9dfa4e784fa6686589cf645324",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:45:58.874398+00:00"
+}

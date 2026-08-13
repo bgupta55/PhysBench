@@ -1,0 +1,8 @@
+{
+  "n_files_hashed": 112,
+  "provenance_manifest": "provenance_manifest.json",
+  "comparison_csv": "table3_vs_table4_comparison.csv",
+  "comparison_sha256": "6901c3e3ab13b8ad926b4690eeeba459c53a0906e9a723169ec3a30841e97321",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:47:20.366880Z"
+}

@@ -1,0 +1,18 @@
+{
+  "args": {
+    "budget": 15,
+    "seeds": 10,
+    "arch": "smallcnn",
+    "defense": "all",
+    "attack": "pbs",
+    "clip_sigma": 1.0,
+    "checksum_cov": 0.5,
+    "top_k": 8,
+    "sub_batch": 32
+  },
+  "n_rows": 450,
+  "csv_out": "/Users/bhanwar/Desktop/Bhanwar Personal/phd/mullana/paper/1_In Progress/2_JSA/resubmit/experiments/results/pbs_sweep_b15_pbs_20260813T022437.csv",
+  "csv_sha256": "151dce062210eb4e67d0a5c7058655b116d09b2eb098d327a38463e080704712",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "20260813T022437"
+}

@@ -1,0 +1,5 @@
+region,n_trials,no_effect_n,no_effect_pct,no_effect_ci_lo,no_effect_ci_hi,fo_implicit_reject_n,fo_implicit_reject_pct,fo_implicit_reject_ci_lo,fo_implicit_reject_ci_hi,silent_wrong_output_n,silent_wrong_output_pct,silent_wrong_output_ci_lo,silent_wrong_output_ci_hi,validation_abort_n,validation_abort_pct,validation_abort_ci_lo,validation_abort_ci_hi
+H_pk,194,0,0.0,0.0,1.94,0,0.0,0.0,1.94,0,0.0,0.0,1.94,194,100.0,98.06,100.0
+packed_s,4783,0,0.0,0.0,0.08,0,0.0,0.0,0.08,4783,100.0,99.92,100.0,0,0.0,0.0,0.08
+pk,4841,0,0.0,0.0,0.08,0,0.0,0.0,0.08,0,0.0,0.0,0.08,4841,100.0,99.92,100.0
+z,182,182,100.0,97.93,100.0,0,0.0,0.0,2.07,0,0.0,0.0,2.07,0,0.0,0.0,2.07

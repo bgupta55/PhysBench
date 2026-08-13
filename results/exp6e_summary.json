@@ -1,0 +1,8 @@
+{
+  "n_comparisons": 2,
+  "n_significant_raw": 2,
+  "n_significant_holm": 2,
+  "csv_sha256": "d9a7a50e7ad7abfecf025a4d087d832c70650a554cecc1872cae84f85bda6ba3",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:47:20.915836Z"
+}

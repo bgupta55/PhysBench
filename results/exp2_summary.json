@@ -1,0 +1,18 @@
+{
+  "total_bytes_analyzed": 768,
+  "pct_bytes_touching_0_coeffs": 0.0,
+  "pct_bytes_touching_1_coeff": 66.67,
+  "pct_bytes_touching_2_coeffs": 33.33,
+  "theoretical_pct_single": 66.67,
+  "theoretical_pct_double": 33.33,
+  "per_poly": {
+    "poly0_pct_single": 66.67,
+    "poly0_pct_double": 33.33,
+    "poly1_pct_single": 66.67,
+    "poly1_pct_double": 33.33
+  },
+  "csv_sha256": "d1d5e6ab03827154c7b1e2d000595125151e5306412303ac60e960720c2bc9c1",
+  "kyber_py_version": "1.2.0",
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "2026-08-13T02:25:29.847466Z"
+}

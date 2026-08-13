@@ -1,0 +1,28 @@
+{
+  "args": {
+    "budget": 20,
+    "seeds": 10,
+    "arch": "smallcnn",
+    "defense": "clip",
+    "attack": "pbs",
+    "clip_sigma": 0.25,
+    "checksum_cov": 0.5,
+    "top_k": 8,
+    "sub_batch": 32
+  },
+  "n_rows": 200,
+  "csv_out": "pbs_sweep_b20_pbs_20260813T024625.csv",
+  "csv_sha256": "03e9227effb5a75e469b713b1fe2abaee30e8e4be31cf146d41c128ada183503",
+  "final_asr": [
+    {
+      "arch": "smallcnn",
+      "defense": "clip",
+      "attack": "pbs",
+      "mean": 0.0017,
+      "std": 0.0002,
+      "median": 0.0017
+    }
+  ],
+  "git_commit": "0c7557cdafc30ae68ff47b6309755b2ce6428ed6",
+  "timestamp": "20260813T024625"
+}

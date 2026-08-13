@@ -1,0 +1,12 @@
+n_hints,bit_security_rop,method
+0,118.0,calibrated_primal_usvp_Kyber512_submission
+5,116.91,calibrated_primal_usvp_Kyber512_submission
+10,115.82,calibrated_primal_usvp_Kyber512_submission
+25,112.54,calibrated_primal_usvp_Kyber512_submission
+50,107.08,calibrated_primal_usvp_Kyber512_submission
+100,96.16,calibrated_primal_usvp_Kyber512_submission
+150,85.24,calibrated_primal_usvp_Kyber512_submission
+200,74.31,calibrated_primal_usvp_Kyber512_submission
+300,52.47,calibrated_primal_usvp_Kyber512_submission
+400,30.63,calibrated_primal_usvp_Kyber512_submission
+512,6.38,calibrated_primal_usvp_Kyber512_submission
