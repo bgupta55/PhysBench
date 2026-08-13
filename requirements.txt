@@ -1,0 +1,21 @@
+# requirements.txt — JSA SI Remediation Experiments
+# Pin versions after finalizing environment; install with:
+#   pip install -r requirements.txt
+#
+# Core Python environment (Python 3.11+ recommended)
+numpy>=1.24
+scipy>=1.11
+pandas>=2.0
+matplotlib>=3.7
+statsmodels>=0.14
+kyber-py>=1.0
+
+# Optional: for Experiment 6 full re-runs with real trained models
+# torch>=2.0   # includes Apple MPS backend on Apple Silicon
+
+# Note: SageMath (required for Experiment 5 with the full lattice-estimator)
+# is NOT installable via pip — use:
+#   mamba install -c conda-forge sage -y
+# Then clone the lattice-estimator:
+#   git clone https://github.com/malb/lattice-estimator.git
+#   inside the experiments/ directory.
