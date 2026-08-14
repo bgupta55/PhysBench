@@ -1,0 +1,3 @@
+arch,comparison,attack,n,mean_undef,mean_def,wilcoxon_stat,p_raw,cliff_delta,source,p_holm,significant_after_holm
+resnet20,undefended vs checksum,pbs,10,0.894067,0.8563,33.0,0.125,0.28,real_pbs_sweep_b20_20260814T002818.csv,0.25,False
+resnet20,undefended vs clip,pbs,10,0.894067,0.8993,26.0,0.577148,-0.08,real_pbs_sweep_b20_20260814T002818.csv,0.577148,False

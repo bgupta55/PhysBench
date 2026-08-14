@@ -1,0 +1,5 @@
+arch,defense,mean_delta,ci_lo_95,ci_hi_95,zero_excluded
+smallcnn,checksum,0.14452,0.07333,0.21103,True
+smallcnn,clip,-0.02335,-0.0424,-0.0051,True
+resnet20,checksum,0.03762,-0.002,0.08683,False
+resnet20,clip,-0.00523,-0.01997,0.00703,False

@@ -1,0 +1,20 @@
+{
+  "experiment": "exp8_defended_decap",
+  "description": "Replay of 4,783 packed_s fault trials from Exp4 against a SHA-256 integrity-check defence. stored_digest = SHA-256(original_dk[0:768]) computed at keygen; check runs before decaps on faulted dk.",
+  "kyber_py_version": "1.2.0",
+  "source_fault_csv": "decap_fault_outcomes.csv",
+  "n_trials": 4783,
+  "n_caught": 4783,
+  "n_missed": 0,
+  "catch_rate_pct": 100.0,
+  "catch_rate_ci_lo": 99.9197,
+  "catch_rate_ci_hi": 100.0,
+  "miss_rate_pct": 0.0,
+  "miss_rate_ci_lo": 0.0,
+  "miss_rate_ci_hi": 0.0803,
+  "defence_mechanism": "SHA-256(packed_s) stored at keygen; compared before every decaps call",
+  "packed_s_region_bytes": 768,
+  "timestamp": "2026-08-14T02:00:41.480890Z",
+  "csv_sha256": "cdfffabe3a1da3f03c55890362b961c46d30040c6669faab461505bc3aecd9cf",
+  "interpretation": "A SHA-256 integrity check over packed_s (the secret key polynomial vector, dk[0:768]) catches essentially 100% of single-bit faults. This confirms the defence works and is cheap (~1 SHA-256 call at keygen + ~1 SHA-256 call per decaps). The catch rate is expected to be 100.00% \u2014 any single-bit change in 768 bytes produces a uniformly distributed 256-bit hash output distinct from the stored digest with overwhelming probability (2^-256 collision chance per trial)."
+}

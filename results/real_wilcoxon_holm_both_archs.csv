@@ -1,0 +1,5 @@
+arch,comparison,n,mean_undef,mean_def,wilcoxon_stat,p_raw,cliff_delta,p_holm,significant_after_holm
+smallcnn,undefended vs checksum,10,0.86637,0.72163,45.0,0.001953,0.63,0.007812,True
+smallcnn,undefended vs clip,10,0.86637,0.88967,2.0,0.996094,-0.49,1.0,False
+resnet20,undefended vs checksum,10,0.89407,0.8563,33.0,0.125,0.28,0.375,False
+resnet20,undefended vs clip,10,0.89407,0.8993,26.0,0.577148,-0.08,1.0,False
