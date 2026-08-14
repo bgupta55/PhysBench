@@ -16,6 +16,10 @@ Run (small test, N=100):
 
 Run (full, N=10000):
   python scripts/exp4_fault_injection.py --trials 10000
+
+Run with other parameter sets (Experiment 3 cross-param generality):
+  python scripts/exp4_fault_injection.py --scheme ML_KEM_768  --out results_v2/exp4_mlkem768.csv
+  python scripts/exp4_fault_injection.py --scheme ML_KEM_1024 --out results_v2/exp4_mlkem1024.csv
 """
 import csv, json, hashlib, datetime, subprocess, argparse, sys
 from pathlib import Path
@@ -28,7 +32,18 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 RESULTS_DIR = SCRIPT_DIR.parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
-# ── ML-KEM-512 dk layout constants ────────────────────────────────────────────
+# ── ML-KEM dk layout constants by parameter set ──────────────────────────────
+# dk = packed_s || ek || H(ek) || z
+# ML-KEM-512:  dk = 768 + 800 + 32 + 32 = 1632
+# ML-KEM-768:  dk = 1152 + 1184 + 32 + 32 = 2400
+# ML-KEM-1024: dk = 1536 + 1568 + 32 + 32 = 3168
+_LAYOUT = {
+    "ML_KEM_512":  {"packed_s": 768,  "pk": 800,  "H_pk": 32, "z": 32},
+    "ML_KEM_768":  {"packed_s": 1152, "pk": 1184, "H_pk": 32, "z": 32},
+    "ML_KEM_1024": {"packed_s": 1536, "pk": 1568, "H_pk": 32, "z": 32},
+}
+
+# defaults (overridden by --scheme)
 PACKED_S_START = 0
 PACKED_S_END   = 768
 PK_START       = 768
@@ -64,7 +79,7 @@ def _force_reject_ciphertext(ct: bytes) -> bytes:
     return bytes(ct_bad)
 
 
-def run_trial(trial_id: int):
+def run_trial(trial_id: int, scheme_name: str = "ML_KEM_512"):
     """
     Single fault-injection trial.  Returns a dict with trial metadata and outcome.
     Runs in a subprocess worker — must import kyber_py inside the function.
@@ -78,29 +93,43 @@ def run_trial(trial_id: int):
       a hard fault-detection response.  We classify this as "validation_abort"
       (not "fo_implicit_reject") since the library raises before the FO check runs.
     """
-    from kyber_py.ml_kem import ML_KEM_512, ml_kem as _mlk
+    from kyber_py.ml_kem import ML_KEM_512, ML_KEM_768, ML_KEM_1024
     import numpy as _np
+
+    _SCHEME_MAP = {
+        "ML_KEM_512":  ML_KEM_512,
+        "ML_KEM_768":  ML_KEM_768,
+        "ML_KEM_1024": ML_KEM_1024,
+    }
+    scheme = _SCHEME_MAP[scheme_name]
+    layout = _LAYOUT[scheme_name]
+
+    ps_end  = layout["packed_s"]
+    pk_end  = ps_end + layout["pk"]
+    hpk_end = pk_end + layout["H_pk"]
+    z_end   = hpk_end + layout["z"]
+    dk_len  = z_end
 
     rng = _np.random.default_rng(seed=trial_id)
 
     # Fresh key generation + encapsulation
-    ek, dk = ML_KEM_512.keygen()
-    K_correct, ct = ML_KEM_512.encaps(ek)
+    ek, dk = scheme.keygen()
+    K_correct, ct = scheme.encaps(ek)
 
     # Choose a byte/bit to flip, weighted proportionally to region size
-    # (packed_s: 768/1632, pk: 800/1632, H_pk: 32/1632, z: 32/1632)
     regions = ["packed_s", "pk", "H_pk", "z"]
-    weights = [768/1632, 800/1632, 32/1632, 32/1632]
+    weights = [layout["packed_s"]/dk_len, layout["pk"]/dk_len,
+               layout["H_pk"]/dk_len,     layout["z"]/dk_len]
     region = rng.choice(regions, p=weights)
 
     if region == "packed_s":
-        byte_idx = int(rng.integers(PACKED_S_START, PACKED_S_END))
+        byte_idx = int(rng.integers(0, ps_end))
     elif region == "pk":
-        byte_idx = int(rng.integers(PK_START, PK_END))
+        byte_idx = int(rng.integers(ps_end, pk_end))
     elif region == "H_pk":
-        byte_idx = int(rng.integers(H_PK_START, H_PK_END))
+        byte_idx = int(rng.integers(pk_end, hpk_end))
     else:  # z
-        byte_idx = int(rng.integers(Z_START, Z_END))
+        byte_idx = int(rng.integers(hpk_end, z_end))
 
     bit_idx = int(rng.integers(0, 8))
 
@@ -110,19 +139,14 @@ def run_trial(trial_id: int):
     dk_faulty = bytes(dk_faulty)
 
     # Derive the implicit-rejection reference output using original dk + corrupt ct
-    # Per FIPS 203: when FO check fails, K = PRF(z, ct); we compute this by
-    # decapsulating with a deliberately invalid ciphertext against the CORRECT dk
+    # Per FIPS 203: when FO check fails, K = PRF(z, ct)
     ct_bad = _force_reject_ciphertext(ct)
-    K_reject_ref = ML_KEM_512.decaps(dk, ct_bad)
+    K_reject_ref = scheme.decaps(dk, ct_bad)
 
     # Run decapsulation with faulty key.
-    # kyber-py 1.2.0 enforces FIPS 203 input-validation (hash check of H_pk in dk)
-    # before any cryptographic processing.  A flip in H_pk or pk will trigger
-    # this check and raise ValueError — this is classified as "validation_abort"
-    # (the implementation self-detects the corruption and refuses to process).
+    # kyber-py 1.2.0 enforces FIPS 203 input-validation (hash check of H_pk in dk).
     try:
-        K_faulty = ML_KEM_512.decaps(dk_faulty, ct)
-        # Classify outcome
+        K_faulty = scheme.decaps(dk_faulty, ct)
         if K_faulty == K_correct:
             outcome = "no_effect"
         elif K_faulty == K_reject_ref:
@@ -130,7 +154,6 @@ def run_trial(trial_id: int):
         else:
             outcome = "silent_wrong_output"
     except ValueError:
-        # FIPS 203 hash-check aborted decapsulation — corruption was detected
         outcome = "validation_abort"
 
     return {
@@ -162,12 +185,16 @@ def get_git_commit():
         return "N/A"
 
 
-def main(n_trials: int = 10_000, workers: int = None):
-    print(f"[Exp4] Running {n_trials:,} fault-injection trials …")
+def main(n_trials: int = 10_000, workers: int = None,
+         scheme_name: str = "ML_KEM_512", out_csv: str = None):
+    print(f"[Exp4] Running {n_trials:,} fault-injection trials (scheme={scheme_name}) …")
     all_results = []
 
+    import functools
+    trial_fn = functools.partial(run_trial, scheme_name=scheme_name)
+
     with ProcessPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(run_trial, i): i for i in range(n_trials)}
+        futures = {pool.submit(trial_fn, i): i for i in range(n_trials)}
         completed = 0
         for fut in as_completed(futures):
             all_results.append(fut.result())
@@ -177,8 +204,19 @@ def main(n_trials: int = 10_000, workers: int = None):
 
     all_results.sort(key=lambda r: r["trial"])
 
+    # Determine output paths
+    if out_csv:
+        csv_out   = Path(out_csv) if Path(out_csv).is_absolute() else SCRIPT_DIR.parent / out_csv
+        table_csv = csv_out.parent / (csv_out.stem + "_table.csv")
+        summary_path = csv_out.parent / (csv_out.stem + "_summary.json")
+    else:
+        csv_out      = RESULTS_DIR / "decap_fault_outcomes.csv"
+        table_csv    = RESULTS_DIR / "decap_fault_outcomes_table.csv"
+        summary_path = RESULTS_DIR / "exp4_summary.json"
+
+    csv_out.parent.mkdir(parents=True, exist_ok=True)
+
     # Write raw CSV
-    csv_out = RESULTS_DIR / "decap_fault_outcomes.csv"
     with open(csv_out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["trial", "region", "byte_idx", "bit_idx", "outcome"])
         w.writeheader()
@@ -202,11 +240,10 @@ def main(n_trials: int = 10_000, workers: int = None):
             row[f"{outcome}_ci_hi"] = round(ci[1]*100, 2)
         table_rows.append(row)
 
-    table_csv = RESULTS_DIR / "decap_fault_outcomes_table.csv"
     pd.DataFrame(table_rows).to_csv(table_csv, index=False)
 
     # Console summary
-    print("\n[Exp4] Per-region outcome breakdown:")
+    print(f"\n[Exp4/{scheme_name}] Per-region outcome breakdown:")
     print(df.groupby(["region", "outcome"]).size().unstack(fill_value=0).to_string())
 
     # JSON summary
@@ -214,6 +251,7 @@ def main(n_trials: int = 10_000, workers: int = None):
     kyber_ver = _meta.version("kyber-py")
 
     summary = {
+        "scheme":            scheme_name,
         "n_trials":          n_trials,
         "kyber_py_version":  kyber_ver,
         "total_outcomes":    df["outcome"].value_counts().to_dict(),
@@ -224,7 +262,7 @@ def main(n_trials: int = 10_000, workers: int = None):
         "git_commit":        get_git_commit(),
         "timestamp":         datetime.datetime.utcnow().isoformat() + "Z",
     }
-    json.dump(summary, open(RESULTS_DIR / "exp4_summary.json", "w"), indent=2)
+    json.dump(summary, open(summary_path, "w"), indent=2)
 
     print(f"\n  Raw CSV   → {csv_out}")
     print(f"  Table CSV → {table_csv}")
@@ -236,5 +274,11 @@ if __name__ == "__main__":
                         help="Number of fault-injection trials (default: 10000)")
     parser.add_argument("--workers", type=int, default=None,
                         help="Number of parallel workers (default: all CPU cores)")
+    parser.add_argument("--scheme",  type=str, default="ML_KEM_512",
+                        choices=["ML_KEM_512", "ML_KEM_768", "ML_KEM_1024"],
+                        help="ML-KEM parameter set (default: ML_KEM_512)")
+    parser.add_argument("--out",     type=str, default=None,
+                        help="Override output CSV path (default: results/decap_fault_outcomes.csv)")
     args = parser.parse_args()
-    main(n_trials=args.trials, workers=args.workers)
+    main(n_trials=args.trials, workers=args.workers,
+         scheme_name=args.scheme, out_csv=args.out)
